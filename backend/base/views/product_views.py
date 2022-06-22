@@ -15,9 +15,15 @@ class getProducts(APIView):
         query= self.request.query_params.get('keyword')
         if query == None:
             query = ''
-        
-        products= Product.objects.filter(name__icontains=query)
 
+        products= Product.objects.filter(name__icontains=query)
+        filter = self.request.query_params.get('filter')
+        if filter == 1:
+            products.order_by('-createdAt')
+        elif filter == 2:
+            products.order_by('price')
+        elif filter == 3:
+            products.order_by('price')
         page= self.request.query_params.get('page')
         paginator= Paginator(products, 2)
 
@@ -61,14 +67,15 @@ class createProduct(APIView):
 
     def post(self, *args, **kwargs):
         user = self.request.user
+        data = self.request.data
         product= Product.objects.create(
             user= user,
-            name= 'Sample Name',
-            price= 0,
-            brand= 'Sample Brand',
-            countInStock=0,
-            category= 'SampleCategory',
-            description='',
+            name= data['name'],
+            price= data['price'],
+            brand= data['brand'],
+            countInStock=data['countInStock'],
+            category= data['category'],
+            description=data['description'],
         )
         serializer= ProductSerializer(product, many=False)
         return Response(serializer.data)
