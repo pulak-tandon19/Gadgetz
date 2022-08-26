@@ -37,7 +37,9 @@ class addOrderItems(APIView):
 
             # 3. Create order items and set set order to order item relationship
             for i in order_items:
-                product= Product.objects.create(
+                product = Product.objects.get(_id=i['product'])
+
+                item= OrderItem.objects.create(
                     product=product,
                     order= order,
                     name= product.name,
@@ -52,6 +54,14 @@ class addOrderItems(APIView):
 
                 serializer= OrderSerializer(order, many=False)
                 return Response(serializer.data)
+
+class getMyOrders(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        user = self.request.user
+        orders = user.order_set.all()
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
 
 
 class getOrderById(APIView):

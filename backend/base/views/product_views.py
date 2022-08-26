@@ -25,7 +25,7 @@ class getProducts(APIView):
         elif filter == 3:
             products.order_by('price')
         page= self.request.query_params.get('page')
-        paginator= Paginator(products, 2)
+        paginator= Paginator(products, 4)
 
         try:
             products= paginator.page(page)
@@ -48,7 +48,7 @@ class getTopProducts(APIView):
         return Response(serializer.data)
 
 class getProduct(APIView):
-    permission_classes = (IsAdminUser,)
+    # permission_classes = (IsAdminUser,)
 
     def get(request, self, pk):
         product= Product.objects.get(_id=pk)
@@ -57,8 +57,8 @@ class getProduct(APIView):
 
 class deleteProduct(APIView):
     permission_classes = (IsAdminUser,)
-    def get(request, self, pk):
-        product= Product.objects.delete(_id=pk)
+    def delete(request, self, pk):
+        product= Product.objects.get(_id=pk)
         product.delete()
         return Response('Product Deleted!')
 
@@ -67,17 +67,18 @@ class createProduct(APIView):
 
     def post(self, *args, **kwargs):
         user = self.request.user
-        data = self.request.data
-        product= Product.objects.create(
-            user= user,
-            name= data['name'],
-            price= data['price'],
-            brand= data['brand'],
-            countInStock=data['countInStock'],
-            category= data['category'],
-            description=data['description'],
-        )
-        serializer= ProductSerializer(product, many=False)
+
+        product = Product.objects.create(
+        user=user,
+        name='Sample Name',
+        price=0,
+        brand='Sample Brand',
+        countInStock=0,
+        category='Sample Category',
+        description=''
+    )
+
+        serializer = ProductSerializer(product, many=False)
         return Response(serializer.data)
 
 class updateProduct(APIView):

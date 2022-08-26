@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3%_vpl7rqrh_an96ppsd9#vm%lk^9(^c0rlph**69_v-4e!(*m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['gadgetz.herokuapp.com']
 
 
 # Application definition
@@ -129,8 +129,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd42pdnabuia5n9',
+        'USER': 'uskvdsvyuspgpe',
+        'PASSWORD': '6175634c91662d770da6cd25a5f41166103db6f21797e9f33b1a35f9eecf4371',
+        'HOST': 'ec2-54-86-106-48.compute-1.amazonaws.com',
+        'PORT': '5432', 
     }
 }
 
@@ -168,14 +172,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+import os
+import django_heroku
 
-STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
+django_heroku.settings(locals())
+
 MEDIA_URL= 'images/'
-
-STATICFILES_DIRS= [
-    BASE_DIR / 'static'
-]
-
 MEDUA_ROOT= 'static/images'
 
 # Default primary key field type
