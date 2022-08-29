@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3%_vpl7rqrh_an96ppsd9#vm%lk^9(^c0rlph**69_v-4e!(*m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['gadgetz.herokuapp.com']
+ALLOWED_HOSTS = ['gadgetzbackend.herokuapp.com', 'localhost']
 
 
 # Application definition
@@ -95,6 +95,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -127,16 +128,24 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR /'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd42pdnabuia5n9',
-        'USER': 'uskvdsvyuspgpe',
-        'PASSWORD': '6175634c91662d770da6cd25a5f41166103db6f21797e9f33b1a35f9eecf4371',
-        'HOST': 'ec2-54-86-106-48.compute-1.amazonaws.com',
+        'NAME': 'd7cavelblbk737',
+        'USER': 'tsvrebyusjzywi',
+        'PASSWORD': '6d46a6dccfccd7c7daa66c278679295f8b9542b55da9ffa24b223303782ece53',
+        'HOST': 'ec2-54-159-175-38.compute-1.amazonaws.com',
         'PORT': '5432', 
     }
 }
+
 
 
 # Password validation
@@ -177,7 +186,7 @@ import django_heroku
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = "/static/"
-django_heroku.settings(locals())
+
 
 MEDIA_URL= 'images/'
 MEDUA_ROOT= 'static/images'
@@ -187,4 +196,9 @@ MEDUA_ROOT= 'static/images'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ALL_ORIGINS= True
+CORS_ALLOWED_ORIGINS= [
+    'https://gadgetz.herokuapp.com',
+    'http://gadgetz.herokuapp.com',
+    'https://gadgetz.netlify.app',
+    'http://gadgetz.netlify.app',
+]
