@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary_storage
+import cloudinary
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +28,7 @@ SECRET_KEY = 'django-insecure-3%_vpl7rqrh_an96ppsd9#vm%lk^9(^c0rlph**69_v-4e!(*m
 DEBUG = True
 
 ALLOWED_HOSTS = ['gadgetzbackend.herokuapp.com', 'localhost']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'base.apps.BaseConfig',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 REST_FRAMEWORK = {
@@ -124,6 +129,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
+CSRF_TRUSTED_ORIGINS = ['https://gadgetzbackend.herokuapp.com', 'http://gadgetzbackend.herokuapp.com']
+
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -184,12 +191,28 @@ USE_TZ = True
 import os
 import django_heroku
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = "/static/"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-MEDIA_URL= 'images/'
-MEDUA_ROOT= 'static/images'
+
+MEDIA_URL = '/images/'
+
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+#     BASE_DIR / 'frontend/build/static'
+# ]
+
+
+# MEDIA_ROOT = BASE_DIR / 'static/images'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -199,6 +222,20 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS= [
     'https://gadgetz.herokuapp.com',
     'http://gadgetz.herokuapp.com',
-    'https://gadgetz.netlify.app',
-    'http://gadgetz.netlify.app',
-]
+]   
+
+# CORS_ALLOWED_ORIGINS= [
+#     '*'
+# ]  
+
+
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': "gadgetzcloud",
+    'API_KEY': '815844351672889',
+    'API_SECRET': 'BpG69oCio5GfJ4D4bl-UQz97juY'
+}
+
+
+
+
