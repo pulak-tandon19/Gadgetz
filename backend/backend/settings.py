@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import cloudinary_storage
 import cloudinary
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,12 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-3%_vpl7rqrh_an96ppsd9#vm%lk^9(^c0rlph**69_v-4e!(*m'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast = bool, default = False)
 
-ALLOWED_HOSTS = ['gadgetzbackend.herokuapp.com', 'localhost']
+ALLOWED_HOSTS = [config('ALLOWED_HOST')]
 # ALLOWED_HOSTS = ['*']
 
 
@@ -129,7 +130,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-CSRF_TRUSTED_ORIGINS = ['https://gadgetzbackend.herokuapp.com', 'http://gadgetzbackend.herokuapp.com']
+CSRF_TRUSTED_ORIGINS = [config('CSRF_TRUSTED_ORIGIN1'), config('CSRF_TRUSTED_ORIGIN2')]
 
 
 # Database
@@ -145,11 +146,11 @@ CSRF_TRUSTED_ORIGINS = ['https://gadgetzbackend.herokuapp.com', 'http://gadgetzb
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd7cavelblbk737',
-        'USER': 'tsvrebyusjzywi',
-        'PASSWORD': '6d46a6dccfccd7c7daa66c278679295f8b9542b55da9ffa24b223303782ece53',
-        'HOST': 'ec2-54-159-175-38.compute-1.amazonaws.com',
-        'PORT': '5432', 
+        'NAME': config('NAME'),
+        'USER': config('USER'),
+        'PASSWORD': config('PASSWORD'),
+        'HOST': config('HOST'),
+        'PORT': config('PORT'), 
     }
 }
 
@@ -220,8 +221,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS= [
-    'https://gadgetz.herokuapp.com',
-    'http://gadgetz.herokuapp.com',
+    config('CORS_ALLOWED_ORIGIN1'),
+    config('CORS_ALLOWED_ORIGIN2')
 ]   
 
 # CORS_ALLOWED_ORIGINS= [
@@ -231,9 +232,9 @@ CORS_ALLOWED_ORIGINS= [
 
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': "gadgetzcloud",
-    'API_KEY': '815844351672889',
-    'API_SECRET': 'BpG69oCio5GfJ4D4bl-UQz97juY'
+    'CLOUD_NAME': config('CLOUD_NAME'),
+    'API_KEY': config('API_KEY'),
+    'API_SECRET': config('API_SECRET')
 }
 
 
